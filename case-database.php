@@ -17,6 +17,26 @@ get_header();
 $is_page_builder_used = et_pb_is_pagebuilder_used( get_the_ID() );
 
 
+
+function displayExceptionMsg($message){
+  $excpMsg ='
+              <div id="main-content">
+              <div class="et-l et-l--body">
+                  <div class="et_builder_inner_content et_pb_gutters3">
+                      <div class="et_pb_section et_pb_section_0_tb_body et_section_regular">
+                          <div class="et_pb_row et_pb_row_0_tb_body et_pb_equal_columns">
+                              <div class="et_pb_column et_pb_column_2_5 et_pb_column_0_tb_body et_pb_css_mix_blend_mode_passthrough">
+                              <h1>'.$message.'</h1>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>';
+
+  echo  $excpMsg;          
+}
+
+
 global $wpdb, $wnm_db_version;
 $charset_collate = $wpdb->get_charset_collate();
 $cases_table = $wpdb->prefix .'cr_cases';
@@ -39,21 +59,7 @@ foreach($cr_db_tbl_array as $cr_db_tbl){
 }
 
 if($tableNotExists){
-
-    ?>
-    <div id="main-content">
-      <div class="et-l et-l--body">
-      <div class="et_builder_inner_content et_pb_gutters3">
-        <div class="et_pb_section et_pb_section_0_tb_body et_section_regular">
-          <div class="et_pb_row et_pb_row_0_tb_body et_pb_equal_columns">
-            <div class="et_pb_column et_pb_column_2_5 et_pb_column_0_tb_body et_pb_css_mix_blend_mode_passthrough">
-              <h1>This page is not available.</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <?php
+    displayExceptionMsg("This page is not available");
     get_footer();
     exit();
 }
@@ -107,11 +113,11 @@ if($tableNotExists){
                                                   <option disabled selected value>Select a case category</option>
                                                   <?php
                                               
-                                                  $result = $wpdb->get_results ("SELECT * FROM  $categories_table");
+                                                  $results_cats = $wpdb->get_results ("SELECT * FROM  $categories_table");
                                                   if ($wpdb->last_error) {
                                                     wp_die(); 
                                                   }
-                                                  foreach ($result as $category){
+                                                  foreach ($results_cats as $category){
                                                     echo "<option value='$category->cat_id'>$category->name</option>"; 
                                                   }
                                                   ?>
@@ -122,11 +128,11 @@ if($tableNotExists){
                                                   <select id="cr_countries" name="cr_countries[]" multiple>
                                                   <?php 
                                                   //$wpdb->show_errors(true);
-                                                  $result = $wpdb->get_results ("SELECT * FROM  $countries_table");
+                                                  $result_countries = $wpdb->get_results ("SELECT * FROM  $countries_table");
                                                   if ($wpdb->last_error) {
                                                     wp_die(); 
                                                   }
-                                                  foreach ($result as $country){
+                                                  foreach ($result_countries as $country){
                                                     echo "<option value='$country->country_id'>$country->name</option>"; 
                                                   } 
                                                   ?>
