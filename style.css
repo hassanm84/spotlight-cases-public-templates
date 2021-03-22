@@ -1,0 +1,108 @@
+/*======================================
+Theme Name: Spotlight on Corruption
+Theme URI: https://divicake.com/
+Description: Custom theme for Spotlight on Corruption
+Version: 1.0
+Author: Tess Tettelin
+Author URI: https://www.tesstettelin.com/
+Template: Divi
+======================================*/
+
+
+/* You can add your own CSS styles here. Use !important to overwrite styles if needed. */
+
+/*
+Description : CSS Styles for Case Search pages.
+Last Updated: 20-03-2021
+Author: A volunteer 
+*/
+
+#cr_invalid_frm_fb{
+    color: #e94e18 !important;
+    display: none;
+    font-style : italic;
+}
+#cr_adv_opts_frm{
+    margin-top:3%;
+    margin-bottom:3%;
+    display: none;
+  }
+
+.cr_collapsible_lnk{
+
+    font-size: 20px !important;
+}
+
+#cr_description{
+    text-align : justify !important;
+    font-size: 20px !important;
+}
+.cr_input{
+    margin-bottom: 3% !important;
+}
+#cr_cats{
+    width: 100% !important;
+    height: 50px !important;
+    font-size: 20px !important;
+}
+#cr_countries{
+    width: 100% !important;
+    height: 200px !important;
+    font-size: 20px !important;
+}
+
+#cr_case_title{
+    background-color: #fff;
+    border: 1px solid #bbb;
+    padding: 2px;
+    color: #4e4e4e;
+    width: 100% !important;
+    height: 50px !important;
+    font-size: 20px !important;
+    background-image: url(https://cdn2.hubspot.net/hubfs/4004166/bioticresearch_website_assets/images/search_icon.png) !important;
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+#cr_search_results{
+    width: 100% !important;
+    min-height: 5px !important;
+    font-size: 150% !important;
+}
+
+.cr_results_list{
+    color: #e94e18 !important;
+}
+
+#cr_results_list li{
+    margin: 0 0 10px 0 !important;
+}
+
+#cr_results_list{
+    list-style-type : none !important;
+}
+
+.cr_input_label{
+    color: #e94e18 !important;
+    font-size: 15px !important;
+    text-transform: uppercase !important;
+}
+
+.cr_row_lnk{
+    color: #e94e18 !important;
+}
+
+#cr_tbl_container{
+    display: none;
+    font-size: 15px !important;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+
+
+
+
+
+
+
