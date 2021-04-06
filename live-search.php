@@ -19,8 +19,8 @@ if(isset($_POST['title'])){
 
     $ajaxResp = array();
     $data=array();
-    $query="SELECT * FROM ".$cases_table." WHERE title LIKE '%".$case_title."%'";
-    $result = $wpdb->get_results ($query);
+    $query="SELECT * FROM ".$cases_table." WHERE title LIKE '%".$case_title."%' AND publish_status='1'";
+    $result = $wpdb->get_results($query);
     if($wpdb->last_error){
         $ajaxResp['success']=false;
         $ajaxResp['message']=$wpdb->last_error;
