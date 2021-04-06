@@ -51,7 +51,7 @@ function search_results_callback(){
 	
 		$ajaxResp = array();
 		$data=array();
-		$query="SELECT * FROM ".$cases_table." WHERE title LIKE '%".$case_title."%'";
+		$query="SELECT * FROM ".$cases_table." WHERE title LIKE '%".$case_title."%' AND publish_status='1'";
 		$result = $wpdb->get_results ($query);
 		if($wpdb->last_error){
 			$ajaxResp['success']=false;
@@ -128,7 +128,7 @@ function adv_search_results_callback(){
 							LEFT OUTER JOIN www_cr_cases_countries AS cases_countries ON cases.case_id = cases_countries.case_id 
 							LEFT OUTER JOIN www_cr_countries AS countries ON cases_countries.country_id = countries.country_id 
 							LEFT OUTER JOIN www_cr_categories AS categories ON cases.cat_id = categories.cat_id
-							WHERE  $wh_clause_cat AND $wh_clause_country";
+							WHERE  $wh_clause_cat AND $wh_clause_country AND cases.publish_status='1'";
 				
         $result_adv_search = $wpdb->get_results ($query_adv_search);
 		
