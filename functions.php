@@ -92,8 +92,9 @@ function adv_search_results_callback(){
 	$cases_table = $wpdb->prefix .'cr_cases';
 	$countries_table = $wpdb->prefix .'cr_countries';
 	$categories_table = $wpdb->prefix .'cr_categories';
+	$prosecutors_table = $wpdb->prefix . 'cr_prosecutors';
 
-	$wh_clause_country = $wh_clause_cat = '1=1';
+	$wh_clause_country = $wh_clause_cat = $wh_clause_prosecutor = '1=1';
 
 	$ajaxResp = array();
 	$data=array();
@@ -119,16 +120,34 @@ function adv_search_results_callback(){
 		}
 
 
+		if(isset($unserialised_data['cr_cats']) && $unserialised_data['cr_cats']!==''){
+			$category = $unserialised_data['cr_cats'];
+			$wh_clause_cat = "cases.cat_id= '$category' ";
+		}
+		else{
+			//do nothing
+		}
+
+		if(isset($unserialised_data['cr_prosecutors']) && $unserialised_data['cr_prosecutors']!==''){
+			$prosecutorId = $unserialised_data['cr_prosecutors'];
+			$wh_clause_prosecutor = "cases.prosecutor_id= '$prosecutorId' ";
+		}
+		else{
+			//do nothing
+		}
+
 		$query_adv_search = "SELECT 
 							cases.case_id,
 							cases.title, 
 							countries.name AS country, 
-							categories.name AS category 
+							categories.name AS category,
+							prosecutors.name AS prosecutor
 							FROM $cases_table AS cases 
 							LEFT OUTER JOIN www_cr_cases_countries AS cases_countries ON cases.case_id = cases_countries.case_id 
 							LEFT OUTER JOIN www_cr_countries AS countries ON cases_countries.country_id = countries.country_id 
 							LEFT OUTER JOIN www_cr_categories AS categories ON cases.cat_id = categories.cat_id
-							WHERE  $wh_clause_cat AND $wh_clause_country AND cases.publish_status='1'";
+							LEFT OUTER JOIN www_cr_prosecutors AS prosecutors ON cases.prosecutor_id = prosecutors.prosecutor_id
+							WHERE  $wh_clause_cat AND $wh_clause_prosecutor AND $wh_clause_country AND cases.publish_status='1'";
 				
         $result_adv_search = $wpdb->get_results ($query_adv_search);
 		
@@ -161,6 +180,7 @@ function processResults(&$ajaxResp, &$data, $result){
 			$data[$i]['url'] = esc_url(add_query_arg( 'case_id', $case->case_id, site_url('/case-details')));
 			$data[$i]['case_id']=$case->case_id;
 			$data[$i]['title']=$case->title;
+			$data[$i]['prosecutor']=$case->prosecutor;
 			$data[$i]['category']=$case->category;
 			$data[$i]['countries']=$case->country;
 		}
