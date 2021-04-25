@@ -45,8 +45,9 @@ $categories_table = $wpdb->prefix .'cr_categories';
 $docs_table = $wpdb->prefix .'cr_docs';
 $sections_table = $wpdb->prefix .'cr_sections';
 $updates_table = $wpdb->prefix .'cr_updates';
+$prosecutors_table = $wpdb->prefix . 'cr_prosecutors';
 
-$cr_db_tbl_array = [$cases_table, $countries_table, $categories_table, $docs_table, $sections_table, $updates_table];
+$cr_db_tbl_array = [$prosecutors_table, $cases_table, $countries_table, $categories_table, $docs_table, $sections_table, $updates_table];
 $tableNotExists = false;
 foreach($cr_db_tbl_array as $cr_db_tbl){
   if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $cr_db_tbl ) ) === $cr_db_tbl ) {
@@ -123,6 +124,23 @@ if($tableNotExists){
                                                   ?>
                                                   </select>
                                               </div>
+
+                                              <label class="cr_input_label" id="cr_prosecutors_lbl" for="cr_prosecutors">Prosecuting Entity</label>
+                                              <div class="cr_input">
+                                                  <select id="cr_prosecutors" name="cr_prosecutors">
+                                                  <option disabled selected value>Select a Prosecuting Entity</option>
+                                                  <?php
+                                              
+                                                  $results_pe = $wpdb->get_results ("SELECT * FROM  $prosecutors_table");
+                                                  if ($wpdb->last_error) {
+                                                    wp_die(); 
+                                                  }
+                                                  foreach ($results_pe as $prosecutor){
+                                                    echo "<option value='$prosecutor->prosecutor_id'>$prosecutor->name</option>"; 
+                                                  }
+                                                  ?>
+                                                  </select>
+                                              </div>
                                               <label class="cr_input_label" id="#cr_countries_lbl" for="cr_countries">Countries</label>
                                               <div class="cr_input">
                                                   <select id="cr_countries" name="cr_countries[]" multiple>
@@ -153,6 +171,7 @@ if($tableNotExists){
                                                         <th class="th"></th>
                                                         <th class="th">Case Title</th>
                                                         <th class="th">Category</th>
+                                                        <th class="th">Prosecuting Entity</th>
                                                         <th class="th">Country/Countries</th>
                                                       </tr>
                                                     </thead>
@@ -253,7 +272,7 @@ $('#adv_search_frm').submit(function(event){
   event.preventDefault();
   $('#cr_invalid_frm_fb').css('display', 'none')
 
-  if($('#cr_countries').val().length == 0 && ($('#cr_cats').val() == null) ){
+  if($('#cr_countries').val().length == 0 && ($('#cr_cats').val() == null) && ($('#cr_prosecutors').val() == null) ){
     //console.log($('#cr_countries').val().length);
     //console.log($('#cr_cats').val());
     $('#cr_invalid_frm_fb').css('display', 'block');
@@ -288,6 +307,7 @@ $('#adv_search_frm').submit(function(event){
               resRows= resRows + "<tr><td style='text-align: center !important;'>"+ count +"</td>";
               resRows= resRows + "<td ><a class='cr_row_lnk' href='" + ajaxResp.data[i].url + "' id='"+ ajaxResp.data[i].case_id +"'>"+ajaxResp.data[i].title+"</a></td>";
               resRows= resRows + "<td>"+ajaxResp.data[i].category+"</td>";
+              resRows= resRows + "<td>"+ajaxResp.data[i].prosecutor+"</td>";
               resRows= resRows + "<td>"+ajaxResp.data[i].countries+"</td></tr>";
             }
             $('#cr_tbl_adv_res > tbody').html(resRows);
