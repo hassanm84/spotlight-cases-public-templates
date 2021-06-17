@@ -17,6 +17,11 @@ Last Updated: 20-03-2021
 Author: A volunteer 
 */
 
+.et_pb_newsletter_fields, .et_pb_module_header{
+    display: none !important;
+}
+
+
 #cr_invalid_frm_fb{
     color: #e94e18 !important;
     display: none;
